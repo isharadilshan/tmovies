@@ -6,6 +6,7 @@ import Button from '../../atoms/Button';
 
 const NoNetworkFound = () => {
   const [noNetworkState, setNoNetworkState] = useState(false);
+  const [userDismissed, setUserDismissed] = useState(false);
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
@@ -34,7 +35,10 @@ const NoNetworkFound = () => {
 
   return (
     <Portal>
-      <Dialog visible={noNetworkState} dismissable={false}>
+      <Dialog
+        visible={noNetworkState && !userDismissed}
+        dismissable={true}
+        onDismiss={() => setUserDismissed(true)}>
         <Dialog.Title>{'Network Error'}</Dialog.Title>
         <Dialog.Content>
           <Paragraph>
