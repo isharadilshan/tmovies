@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint --fix ./src --ext .js"
   },
   "dependencies": {
     "react": "18.0.0",
@@ -19,6 +19,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.6.3",
     "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.26.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.70.3",
     "react-test-renderer": "18.0.0"
