@@ -1,5 +1,4 @@
 import axios from 'axios';
+import Config from 'react-native-config';
 
-const ENDPOINT = 'https://api.themoviedb.org/3';
-
-export const Axios = axios.create({baseURL: ENDPOINT});
+export const Axios = axios.create({baseURL: Config.API_URL});
