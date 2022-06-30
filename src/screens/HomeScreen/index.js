@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Title} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
+import LoadingPlaceholder from '../../components/organism/LoadingPlaceholder';
 import MovieCardItem from '../../components/organism/MovieCardItem';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import {setTopMovies} from '../../redux/actions/movie';
@@ -54,7 +55,6 @@ const HomeScreen = () => {
 
   const handleEndReached = () => {
     const {page, total_pages} = query;
-    console.log('query -------------------', query);
     if (!isFetching && page <= total_pages) {
       setQuery({page: page + 1});
     }
@@ -72,7 +72,7 @@ const HomeScreen = () => {
         onEndReachedThreshold={0.6}
         ListEmptyComponent={() => {
           if (isRefreshing || isFetching) {
-            return <Title>Loading</Title>;
+            return <LoadingPlaceholder />;
           }
           return (
             <View style={styles.emptyComponentWrapper}>
