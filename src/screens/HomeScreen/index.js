@@ -1,27 +1,38 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
+import _ from 'lodash';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Title} from 'react-native-paper';
+import {useDispatch, useSelector} from 'react-redux';
 import MovieCardItem from '../../components/organism/MovieCardItem';
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
+import {setTopMovies} from '../../redux/actions/movie';
 import {getTopRatedMovies} from '../../services/movies';
 
 const HomeScreen = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [movies, setMovies] = useState([]);
+  const dispatch = useDispatch();
+  const topRatedMovies = useSelector(({movie}) => movie.topRatedMovies);
   const [query, setQuery] = useReducer(
     (state, newState) => {
       return {...state, ...newState};
     },
-    {page: 1},
+    {page: 1, total_pages: 1},
   );
 
   const fetchTopRatedMovies = useCallback(async () => {
     try {
       setIsFetching(true);
       const response = await getTopRatedMovies(query.page);
+
       if (response?.data?.results) {
-        setMovies(prevMovies => [...prevMovies, ...response.data.results]);
+        const moviewArr = _.uniq(
+          [...topRatedMovies, ...response.data.results],
+          true,
+          'id',
+        );
+        await dispatch(setTopMovies(moviewArr));
+        setQuery({total_pages: response.data.total_pages});
       }
       setIsFetching(false);
       setIsRefreshing(false);
@@ -29,21 +40,22 @@ const HomeScreen = () => {
       setIsFetching(false);
       setIsRefreshing(false);
     }
-  }, [query]);
+  }, [query.page, dispatch]);
 
   useEffect(() => {
     fetchTopRatedMovies();
   }, [fetchTopRatedMovies]);
 
-  const refreshList = () => {
+  const refreshList = async () => {
     setIsRefreshing(true);
-    setMovies([]);
+    await dispatch(setTopMovies([]));
     fetchTopRatedMovies();
   };
 
   const handleEndReached = () => {
-    const page = query.page;
-    if (!isFetching) {
+    const {page, total_pages} = query;
+    console.log('query -------------------', query);
+    if (!isFetching && page <= total_pages) {
       setQuery({page: page + 1});
     }
   };
@@ -51,7 +63,7 @@ const HomeScreen = () => {
   return (
     <ScreenWrapper noPaddings>
       <FlatList
-        data={movies}
+        data={topRatedMovies}
         renderItem={MovieCardItem}
         keyExtractor={item => item.id}
         refreshing={isRefreshing}
