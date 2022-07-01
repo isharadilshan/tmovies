@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import _ from 'lodash';
 import {FlatList, StyleSheet, View} from 'react-native';
+import Config from 'react-native-config';
 import {Title} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import LoadingPlaceholder from '../../components/organism/LoadingPlaceholder';
