@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from 'react-native';
+import Config from 'react-native-config';
 import FastImage from 'react-native-fast-image';
 import {Surface, Subheading, Title} from 'react-native-paper';
 import {truncateString} from '../../../utils/helper';
+import PopularityIndicator from '../PopularityIndicator';
 
 const MovieCardItem = ({item, index}) => {
   const {
@@ -16,18 +18,20 @@ const MovieCardItem = ({item, index}) => {
     release_date,
     title,
   } = item;
-  const imagePath = 'https://image.tmdb.org/t/p/original';
+
   return (
     <Surface style={styles.surface}>
-      <FastImage
-        style={{width: 150, height: 250, borderRadius: 4}}
-        source={{
-          uri: `${imagePath}${poster_path}`,
-          priority: FastImage.priority.high,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-
+      <View>
+        <FastImage
+          style={{width: 150, height: 250, borderRadius: 4}}
+          source={{
+            uri: `${Config.IMG_PATH}${poster_path}`,
+            priority: FastImage.priority.high,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        <PopularityIndicator popularity={Math.round(popularity)} />
+      </View>
       <View style={styles.cardRight}>
         <Title style={styles.title}>
           {`#${index + 1} `}
@@ -71,6 +75,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     padding: 8,
+    paddingBottom: 40,
     borderRadius: 4,
   },
   cardRight: {
