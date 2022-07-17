@@ -11,12 +11,7 @@ const PopularityIndicator = ({popularity}) => {
   const svgProgress = 100 - popularity;
 
   return (
-    <View
-      style={{
-        alignSelf: 'center',
-        position: 'absolute',
-        bottom: -30,
-      }}>
+    <View style={{marginTop: -30}}>
       <Svg width={size} height={size}>
         {/* Background Circle */}
         <Circle

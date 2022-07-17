@@ -21,7 +21,7 @@ const MovieCardItem = ({item, index}) => {
 
   return (
     <Surface style={styles.surface}>
-      <View>
+      <View style={{flex: 1, alignItems: 'center'}}>
         <FastImage
           style={{width: 150, height: 250, borderRadius: 4}}
           source={{
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     padding: 8,
-    paddingBottom: 40,
     borderRadius: 4,
+    backgroundColor: '#fff',
   },
   cardRight: {
     flex: 1,
@@ -85,11 +85,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     lineHeight: 18,
+    color: 'black',
   },
   subtitle: {
     fontSize: 14,
     lineHeight: 16,
     marginHorizontal: 3,
+    color: 'black',
   },
   dateWrapper: {
     flexDirection: 'row',
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 4,
     borderColor: 'grey',
+    color: 'black',
   },
 });
 
